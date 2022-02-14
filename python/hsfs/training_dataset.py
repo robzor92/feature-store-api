@@ -561,7 +561,7 @@ class TrainingDataset:
     @property
     def location(self):
         """Path to the training dataset location."""
-        return self._location
+        return self._location.replace("hops", "hdfs")
 
     @location.setter
     def location(self, location):
