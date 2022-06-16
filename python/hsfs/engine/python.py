@@ -26,6 +26,7 @@ import pyarrow as pa
 import json
 import random
 import uuid
+from tqdm.auto import tqdm
 
 import great_expectations as ge
 
@@ -750,9 +751,17 @@ class Engine:
         # setup row writer function
         writer = self._get_encoder_func(feature_group._get_encoded_avro_schema())
 
+        pbar = tqdm(
+            total=len(dataframe),
+            bar_format="{desc}: {percentage:.3f}%|{bar}| {n_fmt}/{total_fmt} elapsed<{elapsed} remaining<{remaining}",
+            desc="Uploading",
+        )
+
         def acked(err, msg):
             if err is not None:
                 print("Failed to deliver message: %s: %s" % (str(msg), str(err)))
+            else:
+                pbar.update(1)
 
         # loop over rows
         for r in dataframe.itertuples(index=False):
