@@ -28,7 +28,7 @@ setup(
         "avro==1.10.2",
         "sqlalchemy",
         "PyMySQL[rsa]",
-        "great_expectations==0.15.24"
+        "great_expectations==0.14.12"
     ],
     extras_require={
         "dev": [
