@@ -56,6 +56,11 @@ class StorageConnectorApi:
 
     def get_online_connector(self):
         _client = client.get_instance()
+        print("client")
+        print(str(_client._project_id))
+        print("fs")
+        print(str(self._feature_store_id))
+
         path_params = [
             "project",
             _client._project_id,
