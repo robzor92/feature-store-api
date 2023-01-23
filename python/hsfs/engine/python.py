@@ -93,6 +93,9 @@ class Engine:
             return self._sql_offline(sql_query, feature_store, dataframe_type, schema)
         else:
             print(online_conn)
+            print(online_conn.connection_string)
+            print(online_conn.id)
+            print(sql_query)
             return self._jdbc(
                 sql_query, online_conn, dataframe_type, read_options, schema
             )
