@@ -68,7 +68,7 @@ class StorageConnectorApi:
             "storageconnectors",
             "onlinefeaturestore",
         ]
-
+        print("get online connector")
         return storage_connector.StorageConnector.from_response_json(
             _client._send_request("GET", path_params)
         )
