@@ -102,13 +102,18 @@ class ArrowFlightClient:
             private_key=private_key,
             override_hostname="flyingduck.service.consul",
         )
+        print("pre health check")
         self._health_check()
+        print("post health check")
+        print("pre reg certs")
         self._register_certificates()
+        print("post reg certs")
 
     def _health_check(self):
         action = pyarrow.flight.Action("healthcheck", b"")
         options = pyarrow.flight.FlightCallOptions(timeout=1)
-        list(self._connection.do_action(action, options=options))
+        ret = list(self._connection.do_action(action, options=options))
+        print(ret)
 
     def _should_be_used(self, read_options):
         if read_options and (
@@ -174,7 +179,14 @@ class ArrowFlightClient:
         action = pyarrow.flight.Action(
             "register-client-certificates", certificates_json_buf
         )
-        self._connection.do_action(action)
+        ret = self._connection.do_action(action)
+        try:
+            print(ret)
+            if ret is not None:
+                for val in ret:
+                    print(val)
+        except Exception as e:
+            print(e)
 
     def _handle_afs_exception(user_message="None"):
         def decorator(func):
