@@ -27,6 +27,7 @@ except ImportError:
 
 from hsfs.client import base, auth, exceptions
 from hsfs.client.exceptions import FeatureStoreException
+from hsfs.core import arrow_flight_client
 
 
 class Client(base.Client):
@@ -153,6 +154,8 @@ class Client(base.Client):
             # On external Spark clients (Databricks, Spark Cluster),
             # certificates need to be provided before the Spark application starts.
             return
+
+        arrow_flight_client.close()
 
         # Clean up only on AWS
         self._cleanup_file(self._get_jks_key_store_path())

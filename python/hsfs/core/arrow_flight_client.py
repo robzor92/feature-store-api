@@ -32,13 +32,15 @@ from hsfs.storage_connector import StorageConnector
 
 _arrow_flight_instance = None
 
-
 def get_instance():
     global _arrow_flight_instance
     if not _arrow_flight_instance:
         _arrow_flight_instance = ArrowFlightClient()
     return _arrow_flight_instance
 
+def close():
+    global _arrow_flight_instance
+    _arrow_flight_instance = None
 
 class ArrowFlightClient:
     SUPPORTED_FORMATS = ["parquet"]
