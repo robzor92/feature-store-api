@@ -35,8 +35,6 @@ class CodeEngine:
     # DATABRICKS
     DATABRICKS_EXTRA_CONTEXT = "extraContext"
     DATABRICKS_NOTEBOOK_PATH = "notebook_path"
-    DATABRICKS_TAGS = "tags"
-    DATABRICKS_BROWSER_HOST_NAME = "browserHostName"
 
     def __init__(self, feature_store_id, entity_type):
         self._code_api = code_api.CodeApi(feature_store_id, entity_type)
@@ -85,9 +83,10 @@ class CodeEngine:
             notebook_path = context[CodeEngine.DATABRICKS_EXTRA_CONTEXT].get(
                 CodeEngine.DATABRICKS_NOTEBOOK_PATH
             )
-            browser_host_name = context[CodeEngine.DATABRICKS_TAGS].get(
-                CodeEngine.DATABRICKS_BROWSER_HOST_NAME
-            )
+
+            from pyspark.sql import SparkSession
+            spark = SparkSession.builder.getOrCreate()
+            browser_host_name = spark.conf.get("spark.databricks.workspaceUrl")
 
             # Save HTML
             self._code_api.post(
