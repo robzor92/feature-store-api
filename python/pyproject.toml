@@ -34,7 +34,7 @@ dependencies = [
     "requests",
     "furl",
     "boto3",
-    "pandas<2.2.0",
+    "pandas<2.3.0",
     "numpy<2",
     "pyjks",
     "mock",
